@@ -13,12 +13,8 @@ jobs:
         pal-repo-token: ${{ secrets.REPO_TOKEN }}
         pal-repo-name: AnthonyWC/ghaction-docker-test
         #pal-action-directory: src/super-secret-nested-action
-
-    - name: private action step
-      id: hello
-      uses: actions/hello-world-docker-action@v1
-      with:
         who-to-greet: 'Mona Octocat'
+
     # Use the output from the `hello` step
     - name: Get output time
       run: echo "The time was ${{ steps.hello.outputs.time }}"
