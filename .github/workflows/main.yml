@@ -5,16 +5,28 @@ jobs:
     runs-on: ubuntu-latest
     name: test priv. action
     steps:
-
-    - name: pviate action loader
-      uses: AnthonyWC/private-action-loader@v3
+    - uses: actions/checkout@v2-beta
       with:
-        # access token with repo scope to action repo
-        pal-repo-token: ${{ secrets.REPO_TOKEN }}
-        pal-repo-name: AnthonyWC/ghaction-docker-test
-        #pal-action-directory: src/super-secret-nested-action
-        who-to-greet: 'Mona Octocat'
+        repository: AnthonyWC/ghaction-docker-test
+        ref: refs/tags/v1
+        token: ${{ secrets.REPO_TOKEN }} # contains PAT to clone private repo
 
-    # Use the output from the `hello` step
+    - name: Run the private action
+      id: hello
+      uses: ./
+      with:
+        who-to-greet: "Mona the Octocat"
+
+    # # Only supports javascript actions
+    # - name: pviate action loader
+    #   uses: AnthonyWC/private-action-loader@v3
+    #   id: private_action
+    #   with:
+    #     # access token with repo scope to action repo
+    #     pal-repo-token: ${{ secrets.REPO_TOKEN }}
+    #     pal-repo-name: AnthonyWC/ghaction-docker-test
+    #     #pal-action-directory: src/super-secret-nested-action
+    #     who-to-greet: 'Mona Octocat'
+
     - name: Get output time
       run: echo "The time was ${{ steps.hello.outputs.time }}"
